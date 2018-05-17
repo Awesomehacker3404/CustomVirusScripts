@@ -7,7 +7,7 @@ display dialog "Pixel efficiency decreased by 80 percent, some long term damage 
 
 else
 
-display dialog "Propagating Virus..." buttons {"cancel", "Ok"} default button 1
+display dialog "Propagating Vmmekf..." buttons {"cancel", "Ok"} default button 1
 
 display dialog "Congradulations, 25 new virusus have been added to your Mac!" buttons {"cancel", "Ok"} default button 1
 
