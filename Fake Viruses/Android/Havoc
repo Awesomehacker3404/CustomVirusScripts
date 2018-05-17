@@ -1,0 +1,142 @@
+package com.example.fun_virus;
+
+
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class Fun_Virus_Activity extends Activity 
+{
+private File file;
+private List<String> myList;
+
+public void onCreate(Bundle savedInstanceState) 
+{
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_fun__virus);
+    
+    myList = new ArrayList<String>();   
+
+    String root_sd = Environment.getExternalStorageDirectory().toString();
+    file = new File( root_sd + "/" ) ;       
+    Button btn_infect = (Button) findViewById(R.id.btn_infect);
+ Button btn_disinfect = (Button) findViewById(R.id.btn_disinfect);
+    
+    btn_infect.setOnClickListener(new OnClickListener() {
+  
+  @Override
+  public void onClick(View arg0) {
+   // TODO Auto-generated method stub
+   SharedPreferences settings = getSharedPreferences("mysp", MODE_PRIVATE);
+    String inf = settings.getString("INFECTED","NO");
+   if(inf.equals("OK"))
+   {
+    Toast.makeText(Fun_Virus_Activity.this,"Already Infected", 5).show();
+   }else
+   {
+   infect();
+    
+       SharedPreferences.Editor prefEditor = settings.edit();
+       prefEditor.putString("INFECTED", "OK");
+      
+       prefEditor.commit();
+   }
+  }
+ });
+    
+btn_disinfect.setOnClickListener(new OnClickListener() {
+  
+  @Override
+  public void onClick(View arg0) {
+   // TODO Auto-generated method stub
+   disinfect();
+   Fun_Virus_Activity.this.getSharedPreferences("mysp", 0).edit().clear().commit();
+  }
+ });
+    
+    
+    
+    
+} 
+
+  public void infect()
+ {
+  File list[] = file.listFiles();
+  for( int i=0; i< list.length; i++)
+  {
+   myList.add( list[i].getName() );
+   Log.e("files : ",i+":"+ myList.get(i).toString());
+   File file = new File(list[i].getParent()+"/"+myList.get(i));
+   //File file2 = new File(list[i].getParent()+"..."+myList.get(i));
+   Log.e("abs_path",list[i].getParent()+"/"+myList.get(i)+"");
+   //boolean success = file.renameTo(file2);
+   
+   boolean success= file.renameTo(new File(list[i].getParent(),"..."+myList.get(i)));
+   
+   
+        Log.e("bool",success+"" );
+  }
+ }
+
+  public void disinfect()
+ {
+  File list[] = file.listFiles();
+  for( int i=0; i< list.length; i++)
+  {
+   myList.add( list[i].getName() );
+   Log.e("files : ",i+":"+ myList.get(i).toString());
+   File file = new File(list[i].getParent()+"/"+myList.get(i));
+   String aa= myList.get(i).replace("...", "");
+   Log.e("replace", aa+"");
+   boolean success= file.renameTo(new File(list[i].getParent(),aa));
+   
+   
+         Log.e("bool",success+"" );
+  }
+ }
+
+
+}
+
+
+
+And the layout :-
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+ android:background="@drawable/vrs_logo"
+    tools:context=".Fun_Virus_Activity" >
+
+    <Button
+        android:id="@+id/btn_infect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:text="INFECT" />
+
+    <Button
+        android:id="@+id/btn_disinfect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_infect"
+        android:layout_alignBottom="@+id/btn_infect"
+        android:layout_alignParentRight="true"
+        android:text="DISINFECT" />
+
+</RelativeLayout>
