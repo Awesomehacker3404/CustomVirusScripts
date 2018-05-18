@@ -1,7 +1,8 @@
 @echo off
-A:
-start notepad.exe
-start calc.exe
-start notepad.exe
-start notepad.exe
-goto A:
+x
+start notepad
+start cmd
+start notepad
+start cmd
+start control
+goto x
