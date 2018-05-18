@@ -1,0 +1,15 @@
+tell application "Finder" to say "Installing Decod3.app"
+tell application "Finder"
+ activate
+repeat # times
+  make new Finder window
+end repeat
+end tell
+tell application "lololo"
+ open location "http://www.google.com"
+end tell
+display dialog "dfirnjnjg" buttons {"FIRST BUTTON", "SECOND BUTTON"} default button 2if the button returned of the result is "FIRST BUTTON" then
+ -- action for 1st button goes here
+else
+ -- action for 2nd button goes here
+end if
