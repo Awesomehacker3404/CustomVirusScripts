@@ -8,4 +8,4 @@
  start explorer
  start control
  start calc
- goto x
+ goto :x
